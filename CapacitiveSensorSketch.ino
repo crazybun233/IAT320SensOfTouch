@@ -1,5 +1,5 @@
 #include <CapacitiveSensor.h>
-#define CAP_THRESHOLD   900
+#define CAP_THRESHOLD   200
 #define DEBOUNCE        200
 //Melody Note
 #define NOTE_B0  31
@@ -18,7 +18,7 @@
 #define NOTE_C2  65
 #define NOTE_CS2 69
 #define NOTE_D2  73
-#define NOTE_DS2 78
+#define NOTE_DS2 78 
 #define NOTE_E2  82
 #define NOTE_F2  87
 #define NOTE_FS2 93
@@ -134,11 +134,14 @@ void playMusicOne(){
   int wholenote = (60000 * 4) / tempo;
   int divider = 0, noteDuration = 0;
 
+delay(1000);
   for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
 
     if(cs_9_6.capacitiveSensor(30) > CAP_THRESHOLD){
       play = false;
-      return;
+            delay(1000);
+
+      break;
     }
 
     // calculates the duration of each note
@@ -208,12 +211,15 @@ void playMusicTwo(){
   int wholenote = (60000 * 4) / tempo;
   
   int divider = 0, noteDuration = 0;
+delay(1000);
 
   for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
 
     if(play == true && cs_9_6.capacitiveSensor(30) > CAP_THRESHOLD){
       play = false;
-      return;
+            delay(1000);
+
+      break;
     }
 
     divider = melodyTwo[thisNote + 1];
@@ -276,12 +282,14 @@ void playMusicThree(){
   int wholenote = (60000 * 4) / tempo;
   
   int divider = 0, noteDuration = 0;
+delay(1000);
 
   for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
 
     if(play == true && cs_9_6.capacitiveSensor(30) > CAP_THRESHOLD){
       play = false;
-      return;
+      delay(1000);
+      break;
     }
 
     divider = melodyThree[thisNote + 1];
@@ -334,14 +342,19 @@ void loop()
     long previousMusic =  cs_9_10.capacitiveSensor(30);
 
     switchMusic(playPaulse, nextMusic, previousMusic);
+    Serial.print("playPaulseCapacitor :   ");
     Serial.print(playPaulse);                  
     Serial.print("\n");
+    Serial.print("nextMusicCapacitor :    ");
     Serial.print(nextMusic); 
     Serial.print("\n");
+    Serial.print("previousMusicCapacitor :    ");
     Serial.println(previousMusic);
     Serial.print("\n");
+    Serial.print("playState :   ");
     Serial.print(play);
     Serial.print("\n");
+    Serial.print("musicState :   ");
     Serial.print(musicState);
     Serial.print("\n");
     delay(DEBOUNCE);                        
